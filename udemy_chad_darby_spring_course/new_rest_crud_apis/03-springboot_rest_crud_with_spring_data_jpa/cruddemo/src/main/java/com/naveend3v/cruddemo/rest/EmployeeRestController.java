@@ -18,19 +18,19 @@ public class EmployeeRestController {
         this.employeeService = theEmployeeService;
     }
 
+    @GetMapping("/employees")
+    public List<Employee> getAllEmployee() {
+        return employeeService.findAll();
+    }
+
     @GetMapping("/employees/{id}")
     public Employee getEmployeeByID(@PathVariable int id) {
-        Employee employee = employeeService.find(id);
+        Employee employee = employeeService.findById(id);
         if (employee == null) {
             throw new RuntimeException("Employee not found with employee id: " + id);
         } else {
             return employee;
         }
-    }
-
-    @GetMapping("/employees")
-    public List<Employee> getAllEmployee() {
-        return employeeService.findAll();
     }
 
     @PostMapping("/employees")
@@ -48,7 +48,7 @@ public class EmployeeRestController {
 
     @DeleteMapping("/employees/{employeeID}")
     public String removeEmployee(@PathVariable int employeeID) {
-        Employee tempEmployee = employeeService.find(employeeID);
+        Employee tempEmployee = employeeService.findById(employeeID);
         if (tempEmployee == null) {
             throw new RuntimeException("Employee not found with id - " + employeeID);
         } else {

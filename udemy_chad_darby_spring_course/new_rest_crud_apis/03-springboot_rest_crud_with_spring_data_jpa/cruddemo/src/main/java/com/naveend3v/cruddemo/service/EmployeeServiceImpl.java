@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
@@ -25,13 +26,23 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public Employee find(int employeeId) {
-        return employeeRepository.findById(employeeId);
+    public Employee findById(int employeeId) {
+
+        Optional<Employee> result = employeeRepository.findById(employeeId);
+
+        Employee theEmployee = null;
+
+        if(result.isPresent()){
+            theEmployee = result.get();
+            return theEmployee;
+        } else {
+            throw new RuntimeException("Did not find employee with id - " + employeeId);
+        }
     }
 
     @Override
     public Employee save(Employee newEmployee) {
-        return employeeRepository.findBy(newEmployee);
+        return employeeRepository.save(newEmployee);
     }
 
     @Override
